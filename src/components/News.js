@@ -24,59 +24,76 @@ export class News extends Component {
       page: 1,
     };
   }
-  async componentDidMount() {
-    // async function can wait for a promise to resolve
-    let url =
-      `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3c64745efc67492f8212eeb3a38b5d4a&page=1&pageSize=${this.props.pageSize}`;
+  
+  async updateNews(){
+    const url =
+    `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3c64745efc67492f8212eeb3a38b5d4a&page=${this.state.page}&pageSize=${this.props.pageSize}`;
 
     let data = await fetch(url);
     // console.log(data);
     let parsedData = await data.json(); //its a promise that the data could be parsed into json or converted into text..
-    this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults}); //
     console.log(parsedData);
+    this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults}); 
+  }
+  async componentDidMount() {
+    // async function can wait for a promise to resolve
+    // let url =
+    //   `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3c64745efc67492f8212eeb3a38b5d4a&page=1&pageSize=${this.props.pageSize}`;
+
+    // let data = await fetch(url);
+    // // console.log(data);
+    // let parsedData = await data.json(); //its a promise that the data could be parsed into json or converted into text..
+    // console.log(parsedData);
+    // this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults}); 
+    this.updateNews();
   }
 
   handlePrevClick = async () => {
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3c64745efc67492f8212eeb3a38b5d4a&page=${
-      this.state.page - 1
-    }&pageSize=${this.props.pageSize}`;
+    // let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3c64745efc67492f8212eeb3a38b5d4a&page=${
+    //   this.state.page - 1
+    // }&pageSize=${this.props.pageSize}`;
 
-    this.setState({loading: true});
+    // this.setState({loading: true});
 
-    let data = await fetch(url);
-    // console.log(data);
-    let parsedData = await data.json(); //its a promise that the data could be parsed into json or converted into text..
+    // let data = await fetch(url);
+    // // console.log(data);
+    // let parsedData = await data.json(); //its a promise that the data could be parsed into json or converted into text..
 
-    this.setState({
-      page: this.state.page - 1,
-      articles: parsedData.articles,
-      loading: false
-    });
+    // this.setState({
+    //   page: this.state.page - 1,
+    //   articles: parsedData.articles,
+    //   loading: false
+    // });
+    this.setState({page: this.state.page - 1});
+    this.updateNews()
   };
 
   handleNextClick = async () => {
-    if(!this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pageSize)) {
+    // if(!this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pageSize)) {
   
-    }
-    else{
-      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3c64745efc67492f8212eeb3a38b5d4a&page=${
-        this.state.page + 1
-      }&pageSize=${this.props.pageSize}`;
+    // }
+    // else{
+    //   let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3c64745efc67492f8212eeb3a38b5d4a&page=${
+    //     this.state.page + 1
+    //   }&pageSize=${this.props.pageSize}`;
       
-      this.setState({loading: true});
+    //   this.setState({loading: true});
 
-      let data = await fetch(url);
-      // console.log(data);
-      let parsedData = await data.json(); //its a promise that the data could be parsed into json or converted into text..
+    //   let data = await fetch(url);
+    //   // console.log(data);
+    //   let parsedData = await data.json(); //its a promise that the data could be parsed into json or converted into text..
       
       
-      this.setState({
-        page: this.state.page + 1,
-        articles: parsedData.articles,
-        loading: false
-      });
-    }
-   
+    //   this.setState({
+    //     page: this.state.page + 1,
+    //     articles: parsedData.articles,
+    //     loading: false
+    //   });
+    // }
+    this.setState({page: this.state.page + 1});
+    this.updateNews()
+
+
   };
   render() {
     return (

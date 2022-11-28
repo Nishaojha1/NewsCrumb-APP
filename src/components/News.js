@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 export class News extends Component {
   static defaultProps = {
     country: 'in',
-    pageSize: 6,
+    pageSize: 9,
     category: 'general'
   }
  PropTypes = {
@@ -15,14 +15,18 @@ export class News extends Component {
     pageSize: PropTypes.number,
     category: PropTypes.string,
   }
-  constructor() {
-    super();
+  capitalizeFirstLetter = (string)=> {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  constructor(props) {
+    super(props);
     console.log("constructor from news component");
     this.state = {
       articles: [],
       loading: false,
       page: 1,
     };
+    document.title = `${this.capitalizeFirstLetter(this.props.category)} - NewsCrumb`;
   }
   
   async updateNews(){
@@ -98,7 +102,7 @@ export class News extends Component {
   render() {
     return (
       <div className="container my-3">
-        <h2 className="text-center">NewsCrumb - Top Headlines</h2>
+        <h2 className="text-center">NewsCrumb - Top {this.capitalizeFirstLetter(this.props.category)} Headlines</h2>
         {this.state.loading &&<Spinner />}
         <div className="row">
           {!this.state.loading && this.state.articles.map((element) => {

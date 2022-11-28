@@ -33,6 +33,7 @@ export class News extends Component {
   }
 
   async updateNews() {
+    this.props.setProgress(10);
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3c64745efc67492f8212eeb3a38b5d4a&page=${this.state.page}&pageSize=${this.props.pageSize}`;
 
     let data = await fetch(url);
@@ -43,6 +44,8 @@ export class News extends Component {
       articles: parsedData.articles,
       totalResults: parsedData.totalResults,
     });
+    this.props.setProgress(100);
+
   }
   async componentDidMount() {
     // async function can wait for a promise to resolve
